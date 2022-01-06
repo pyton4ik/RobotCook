@@ -12,7 +12,7 @@ class Basket:
 
     def parking(self):
         """
-        After every operation tools must be put to holder palace
+        After every operation tools must be put to holder place
         """
         pass
 
@@ -26,7 +26,7 @@ class Spatula:
 
     def parking(self):
         """
-        After every operation tools must be put to holder palace
+        After every operation tools must be put to holder place
         """
         pass
 
