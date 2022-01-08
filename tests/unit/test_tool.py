@@ -1,19 +1,22 @@
+import mock
+import pytest
+
+from manipulator import ManipulatorController
 from tools import Basket
 from tools import Spatula
 from tools import BASKET_PARKING_COORDINATES
 from tools import SPATULA_PARKING_COORDINATES
-from manipulator import ManipulatorController
-import mock
 
-def test_basket(monkeypatch):
+
+@pytest.mark.parametrize("tool_class,coordinates", [(Basket(), BASKET_PARKING_COORDINATES),
+                                                    (Spatula(), SPATULA_PARKING_COORDINATES)])
+@pytest.mark.parametrize("operation", ("get", "drop"))
+def test_tools_liskov_substitution_principle(monkeypatch, tool_class, coordinates, operation):
     go_to_pos_mock = mock.Mock()
-    get_mock = mock.Mock()
-    drop_mock = mock.Mock()
+    operation_mock = mock.Mock()
     monkeypatch.setattr(ManipulatorController, "go_to_pos", go_to_pos_mock)
-    monkeypatch.setattr(ManipulatorController, "get", get_mock)
-    monkeypatch.setattr(ManipulatorController, "drop", drop_mock)
-    basket = Basket()
-    basket.get()
+    monkeypatch.setattr(ManipulatorController, operation, operation_mock)
 
-    assert go_to_pos_mock.mock_calls == [mock.call(*BASKET_PARKING_COORDINATES)]
-
+    getattr(tool_class, operation)()
+    assert go_to_pos_mock.mock_calls == [mock.call(*coordinates)]
+    assert operation_mock.mock_calls == [mock.call()]
