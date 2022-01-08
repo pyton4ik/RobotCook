@@ -20,3 +20,12 @@ def test_tools_liskov_substitution_principle(monkeypatch, tool_class, coordinate
     getattr(tool_class, operation)()
     assert go_to_pos_mock.mock_calls == [mock.call(*coordinates)]
     assert operation_mock.mock_calls == [mock.call()]
+
+
+def test_spatula_rotate(monkeypatch):
+    operation_mock = mock.Mock()
+    monkeypatch.setattr(ManipulatorController, "turn", operation_mock)
+
+    Spatula().rotate()
+
+    assert operation_mock.mock_calls == [mock.call(180)]
