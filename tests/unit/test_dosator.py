@@ -11,7 +11,6 @@ from souce import SouceDosator, SouceDosatorController
 from hardware import HardwareSouceDosator
 
 
-
 @pytest.mark.parametrize("controller_class,product_name,pickup_pint",
                          [(SouceDosatorController, souce_product_arr[0], [34, 234, 0]),
                           (SouceDosatorController, souce_product_arr[0], [34, 234, 0])])
