@@ -1,5 +1,7 @@
 # RobotCook
 ![cook bot!](./logo.png "cook bot")
+# Proto
+![cook bot!](./proto.png "cook bot")
 ## Main Parts
 ### ARM
 #1 Niryo : https://niryo.com/
