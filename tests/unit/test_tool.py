@@ -1,3 +1,5 @@
+# pylint: disable=missing-function-docstring
+
 import mock
 import pytest
 

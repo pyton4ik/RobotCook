@@ -1,6 +1,8 @@
 """
 Common test for all dosators
 """
+# pylint: disable=missing-function-docstring
+
 import mock
 import pytest
 
@@ -9,7 +11,7 @@ from souce import SouceDosator, SouceDosatorController
 from hardware import HardwareSouceDosator
 
 
-# pylint: disable=missing-function-docstring
+
 @pytest.mark.parametrize("controller_class,product_name,pickup_pint",
                          [(SouceDosatorController, souce_product_arr[0], [34, 234, 0]),
                           (SouceDosatorController, souce_product_arr[0], [34, 234, 0])])
@@ -22,7 +24,6 @@ def test_dosator_liskov_substitution_principle(controller_class, product_name, p
     assert dosator_obj.pick_up_point == pickup_pint
 
 
-# pylint: disable=missing-function-docstring
 @pytest.mark.parametrize("index", range(len(souce_product_arr)))
 def test_souce_dosator(monkeypatch, index):
     mock_array = []
