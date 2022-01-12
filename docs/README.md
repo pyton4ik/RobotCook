@@ -20,4 +20,7 @@
      teachers, makers, and manufacturers
      https://www.marginallyclever.com 
 ### ARM tool
+#### Basket
+#### Spatula
+#### Pliers
 ### Ingradients dosators
