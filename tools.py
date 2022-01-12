@@ -2,7 +2,7 @@
 Helper tools for operations.
 Every tools have keep coordinates (parking_coordinates).
 """
-from manipulator import ManipulatorController
+from hardware import ManipulatorController
 
 
 BASKET_PARKING_COORDINATES = 123, 321, 231

@@ -3,7 +3,7 @@
 import mock
 import pytest
 
-from manipulator import ManipulatorController
+from hardware import ManipulatorController
 from tools import Basket
 from tools import Spatula
 from tools import BASKET_PARKING_COORDINATES
