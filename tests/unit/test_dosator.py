@@ -6,15 +6,17 @@ Common test for all dosators
 import mock
 import pytest
 
+from dosator import Slicer, SlicerController
+from dosator import SLICER_PRODUCTS_ARR
 from souce import PRODUCTS_ARR as souce_product_arr
 from souce import SouceDosator, SouceDosatorController
 from errors import ProductNotFoundInDosator
-from hardware import HardwareSouceDosator
+from hardware import HardwareSouceDosator, HardwareSlicerController
 
 
 @pytest.mark.parametrize("controller_class,product_name,pickup_pint",
-                         [(SouceDosatorController, souce_product_arr[0], [34, 234, 0]),
-                          (SouceDosatorController, souce_product_arr[0], [34, 234, 0])])
+                         [(SouceDosatorController, souce_product_arr[0], [34, 234, 531]),
+                          (SlicerController, SLICER_PRODUCTS_ARR[0], [123, 221, 673])])
 def test_dosator_liskov_substitution_principle(controller_class, product_name, pickup_pint):
     dosator_controller_obj = controller_class()
     dosator_obj = dosator_controller_obj.get_dosator(product_name)
@@ -40,3 +42,13 @@ def test_souce_dosator(monkeypatch, index):
 
     for mock_obj in mock_array:
         assert mock_obj.mock_calls == [mock.call()]
+
+@pytest.mark.parametrize("index", range(len(SLICER_PRODUCTS_ARR)))
+def test_slicer(monkeypatch, index):
+    slicer_controller_mock = mock.Mock()
+    monkeypatch.setattr(HardwareSlicerController, "slice", slicer_controller_mock)
+
+    slicer_controller = Slicer(index, str(index))
+    slicer_controller.dose()
+
+    assert slicer_controller_mock.mock_calls == [mock.call()] * 3

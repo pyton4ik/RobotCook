@@ -4,7 +4,6 @@ Abstract layer for manipulator controller
 # pylint: disable=missing-class-docstring
 # pylint: disable=missing-function-docstring
 
-
 class HardwareSouceDosator():
     def __init__(self, index: int):
         self._index = index
@@ -30,4 +29,8 @@ class ManipulatorController:
         pass
 
     def turn(self, degrees):
+        pass
+
+class HardwareSlicerController:
+    def slice(self):
         pass
