@@ -3,6 +3,7 @@ Common class for all Bathers
 """
 from errors import ProductNotFoundInDosator
 
+
 class Dosator():
     def __init__(self, name, index):
         self.name = name

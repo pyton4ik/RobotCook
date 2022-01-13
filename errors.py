@@ -1,13 +1,17 @@
 """
 All custom errors collected here
 """
+# pylint: disable=missing-function-docstring
 
 
 class BaseError(Exception):
+    """
+    Base class for custom errors. Every error should be inherited from here.
+    """
     message = ""
     name = ""
 
-    def __init__(self, message=None, *args, **kwargs):
+    def __init__(self, **kwargs):
         super().__init__()
         self.kwargs = kwargs
 
@@ -16,8 +20,11 @@ class BaseError(Exception):
         return self.message.format(**self.kwargs)
 
     def __str__(self):
-        return  "{}:{}".format(self.name or self.__class__.__name__, self.error_message)
+        return "{}:{}".format(self.name or self.__class__.__name__, self.error_message)
 
 
 class ProductNotFoundInDosator(BaseError):
+    """
+    Exceptional. it shouldn't happen.
+    """
     message = "Product '{product}' not found in current controller"
