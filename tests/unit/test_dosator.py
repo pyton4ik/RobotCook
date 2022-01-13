@@ -8,8 +8,8 @@ import pytest
 
 from dosator import Slicer, SlicerController
 from dosator import SLICER_PRODUCTS_ARR
-from souce import PRODUCTS_ARR as souce_product_arr
-from souce import SouceDosator, SouceDosatorController
+from dosator import SOUCE_PRODUCTS_ARR as souce_product_arr
+from dosator import SouceDosator, SouceDosatorController
 from errors import ProductNotFoundInDosator
 from hardware import HardwareSouceDosator, HardwareSlicerController
 
@@ -42,6 +42,7 @@ def test_souce_dosator(monkeypatch, index):
 
     for mock_obj in mock_array:
         assert mock_obj.mock_calls == [mock.call()]
+
 
 @pytest.mark.parametrize("index", range(len(SLICER_PRODUCTS_ARR)))
 def test_slicer(monkeypatch, index):

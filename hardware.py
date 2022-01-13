@@ -4,6 +4,7 @@ Abstract layer for manipulator controller
 # pylint: disable=missing-class-docstring
 # pylint: disable=missing-function-docstring
 
+
 class HardwareSouceDosator():
     def __init__(self, index: int):
         self._index = index
@@ -31,6 +32,15 @@ class ManipulatorController:
     def turn(self, degrees):
         pass
 
+
 class HardwareSlicerController:
     def slice(self):
+        pass
+
+
+class RefregeratorComputerVision:
+    def detect_qty(self):
+        pass
+
+    def get_product_coordinates(self, product_name: str):
         pass
