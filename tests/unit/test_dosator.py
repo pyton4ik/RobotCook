@@ -9,7 +9,7 @@ import pytest
 from souce import PRODUCTS_ARR as souce_product_arr
 from souce import SouceDosator, SouceDosatorController
 from hardware import HardwareSouceDosator
-
+from errors import ProductNotFoundInDosator
 
 @pytest.mark.parametrize("controller_class,product_name,pickup_pint",
                          [(SouceDosatorController, souce_product_arr[0], [34, 234, 0]),
@@ -22,6 +22,8 @@ def test_dosator_liskov_substitution_principle(controller_class, product_name, p
     assert dosator_obj.name == product_name
     assert dosator_obj.pick_up_point == pickup_pint
 
+    with pytest.raises(ProductNotFoundInDosator):
+        dosator_controller_obj.get_dosator("Bread")
 
 @pytest.mark.parametrize("index", range(len(souce_product_arr)))
 def test_souce_dosator(monkeypatch, index):

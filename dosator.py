@@ -1,7 +1,7 @@
 """
 Common class for all Bathers
 """
-
+from errors import ProductNotFoundInDosator
 
 class Dosator():
     def __init__(self, name, index):
@@ -28,5 +28,5 @@ class DosatorController:
 
     def get_dosator(self, product: str):
         if product not in self._products:
-            raise errors.ProductNotFoundInDosator(product=product)
+            raise ProductNotFoundInDosator(product=product)
         return self._products[product]

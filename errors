@@ -1,4 +1,0 @@
-
-
-class ProductNotFoundInDosator(Exception):
-    message = "Product '{product}' not found in current controller"

@@ -1,6 +1,9 @@
 """
 Abstract layer for manipulator controller
 """
+# pylint: disable=missing-class-docstring
+# pylint: disable=missing-function-docstring
+
 
 class HardwareSouceDosator():
     def __init__(self, index: int):
@@ -14,6 +17,7 @@ class HardwareSouceDosator():
 
     def close_valve(self):
         pass
+
 
 class ManipulatorController:
     def go_to_pos(self, x, y, z):
