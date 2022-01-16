@@ -9,7 +9,7 @@
 * The ingredient can enter the lunchbox directly or through a ***Processing center***. For directly move **Box basket** under ***Dispenser*** coordinates. For operations inside the processing center, a **Processing basket** is used.
 * Every ***Dispenser*** and centers axes of symmetry ***Processing center***  equidistant from the **Center**.
 * Manipulator in the **Сenter**
-* 
+
 # Receipt
 Burger receipt example
 | Ingredient      | Operation | Operatinon time|
