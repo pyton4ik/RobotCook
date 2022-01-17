@@ -63,7 +63,7 @@ class ChiefCooker:
 
     def _init_processing_centers(self):
         for name, angle, hardware_class_name in hardware.processing_center_config:
-            self._processing_centers[name.lower()] = ProcessingCenter(angle, hardware_class_name)
+            self._processing_centers[name.lower()] = ProcessingCenter(name, angle, hardware_class_name)
 
         self._processing_centers["oven"] = self._processing_centers["grill"]
         self._processing_centers["confection"] = self._processing_centers["grill"]
