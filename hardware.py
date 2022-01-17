@@ -38,10 +38,10 @@ class DosatorController:
         self._index = index
 
     def get_product(self):
-        return True
+        ...
 
-    def get_product_qty(self):
-        return True
+    def get_qty(self):
+        return self._index ** 6
 
 
 class BoxDosatorController(DosatorController):
@@ -54,7 +54,6 @@ class SouceDosatorController(DosatorController):
         self._open_valve()
         sleep(SOUCE_OPEN_WAIT_TIME)
         self._close_valve()
-        return True
 
     def _apply_pressure(self):
         ...
@@ -70,7 +69,6 @@ class SlicerDosatorController(DosatorController):
     def get_product(self):
         for i in range(3):
             self.slice()
-        return True
 
     def slice(self):
         ...

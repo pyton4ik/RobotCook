@@ -20,16 +20,27 @@ import hardware
                           (15, 5, (865, 663, 345)),
                           (1, 30, (338, 865, 345)),
                           (1, 45, (860, 327, 345))])
-def test_dosator(start_angle, elem_angle, pickup_point, hardware_dosator_controller):
-    dosator_obj = Dispenser(1, "MOCK PRODUCT", start_angle, elem_angle, hardware_dosator_controller)
+@pytest.mark.parametrize("hardware_qty,is_have_amount",[(0, False),(100500, True)])
+def test_dosator(monkeypatch, start_angle, elem_angle, pickup_point, hardware_dosator_controller,
+                 hardware_qty, is_have_amount):
+    dispenser_obj = Dispenser(1, "MOCK PRODUCT", start_angle, elem_angle, hardware_dosator_controller)
 
-    assert dosator_obj.index == 1
-    assert dosator_obj.name == "MOCK PRODUCT"
-    assert dosator_obj.coordinates == pickup_point
+    assert dispenser_obj.index == 1
+    assert dispenser_obj.name == "MOCK PRODUCT"
+    assert dispenser_obj.coordinates == pickup_point
+
+    get_product_mock = mock.Mock()
+    get_qty = mock.Mock(return_value=hardware_qty)
+
+    monkeypatch.setattr(hardware_dosator_controller, "get_product", get_product_mock)
+    monkeypatch.setattr(hardware_dosator_controller, "get_qty", get_qty)
 
     # Check Liskov substitution principle
-    assert dosator_obj.hardware.get_product()
-    assert dosator_obj.hardware.get_product_qty()
+    dispenser_obj.get_product()
+    assert dispenser_obj.is_have_required_amount == is_have_amount
+
+    assert get_product_mock.mock_calls == [mock.call()]
+    assert get_qty.mock_calls == [mock.call(mock.ANY)]
 
 
 def test_souce_dosator(monkeypatch):
