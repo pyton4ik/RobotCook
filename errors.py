@@ -28,3 +28,15 @@ class ProductNotFoundInDosator(BaseError):
     Exceptional. it shouldn't happen.
     """
     message = "Product '{product}' not found in current controller"
+
+class ErrorReceiptConfiguration(BaseError):
+    """
+    Exceptional. it shouldn't happen.
+    """
+    message = "Error receipt configuration. Details:{details}"
+
+class NotReadyForCooking(BaseError):
+    """
+    Exceptional. it shouldn't happen.
+    """
+    message = "Device not ready for cooking. Details:{details}"

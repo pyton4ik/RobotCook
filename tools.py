@@ -6,8 +6,8 @@ from hardware import ManipulatorController
 
 
 BASKET_PARKING_COORDINATES = 123, 321, 231
-SPATULA_PARKING_COORDINATES = 232, 282, 228
-
+PROCESSING_BASKET_PARKING_COORDINATES = 232, 282, 228
+UP_OFFSET = 100
 
 class Tool:
     """
@@ -32,7 +32,7 @@ class Tool:
         self.manipulator.drop()
 
 
-class Basket(Tool):
+class BoxBasket(Tool):
     """
     Helper tools for transfer product from Dozator to Oven
     """
@@ -41,13 +41,13 @@ class Basket(Tool):
         self.parking_coordinates = BASKET_PARKING_COORDINATES
 
 
-class Spatula(Tool):
+class ProcessingBasket(Tool):
     """
     Main tools for cooking
     """
     def __init__(self):
         super().__init__()
-        self.parking_coordinates = SPATULA_PARKING_COORDINATES
+        self.parking_coordinates = PROCESSING_BASKET_PARKING_COORDINATES
 
     def rotate(self):
         """

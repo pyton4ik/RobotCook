@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, create_engine
+from sqlalchemy import Column, Integer, String, DateTime, create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Table, Column, Integer, ForeignKey
 from sqlalchemy.orm import relationship
@@ -12,16 +12,16 @@ class Product(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String)
     type = Column(String)
-    # Parent products for ingradients
-    parent_product_id = relationship("Product")
 
 
 class Payments(Base):
     __tablename__ = 'payment'
     id = Column(Integer, primary_key=True)
-    sum = Column(Integer)
+    amount = Column(Integer)
+    ref = Column(String)
     payment_type = Column(String)
     order_id = Column(Integer, ForeignKey('order.id'))
+    payment_date = Column(DateTime)
 
 
 class Order(Base):
@@ -37,11 +37,11 @@ class Order(Base):
 
     @property
     def total_payment(self):
-        return sum(payment_item.sum for payment_item in self.payment_items)
+        return sum(payment_item.amount for payment_item in self.payment_items)
 
     @property
     def total(self):
-        return sum(order_item.sum for order_item in self.order_items)
+        return sum(order_item.total for order_item in self.order_items)
 
 
 class OrderItems(Base):
@@ -52,7 +52,16 @@ class OrderItems(Base):
     price = Column(Integer)
 
     @property
-    def sum(self):
+    def total(self):
         return self.qty * self.price
+
+
+class Receipt(Base):
+    id = Column(Integer, primary_key=True)
+    product_id = Column(Integer, ForeignKey("product.id"))
+    ingredient = Column(String)
+    operation = Column(String)
+    wait_time = Column(Integer)
+
 
 Base.metadata.create_all(engine)
