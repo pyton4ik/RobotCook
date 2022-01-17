@@ -32,14 +32,14 @@ class Dispenser(OrbitingElement):
         self.start_group_angle = start_angle
         self.elements_angle = elem_angle
 
-        self.hardware = hardware_class
+        self.hardware = hardware_class(self.index)
 
     @property
     def angle(self):
         return self.start_group_angle + self.index * self.elements_angle
 
-    def dose(self):
-        self.hardware.get_product(self.index)
+    def get_product(self):
+        return self.hardware.get_product()
 
     @property
     def is_have_required_amount(self) -> bool:

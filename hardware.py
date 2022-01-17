@@ -7,6 +7,7 @@ from time import sleep
 
 from errors import ErrorReceiptConfiguration
 
+SOUCE_OPEN_WAIT_TIME = 0
 
 product_portion_qty_dict = {
     "onion": 15,
@@ -33,11 +34,14 @@ class ManipulatorController:
 
 
 class DosatorController:
-    def get_product(self, index):
-        ...
+    def __init__(self, index: int):
+        self._index = index
 
-    def get_product_qty(self, index):
-        ...
+    def get_product(self):
+        return True
+
+    def get_product_qty(self):
+        return True
 
 
 class BoxDosatorController(DosatorController):
@@ -45,14 +49,12 @@ class BoxDosatorController(DosatorController):
 
 
 class SouceDosatorController(DosatorController):
-    def __init__(self, index: int):
-        self._index = index
-
     def get_product(self):
         self._apply_pressure()
         self._open_valve()
-        sleep(OPEN_WAIT_TIME)
+        sleep(SOUCE_OPEN_WAIT_TIME)
         self._close_valve()
+        return True
 
     def _apply_pressure(self):
         ...
@@ -68,6 +70,7 @@ class SlicerDosatorController(DosatorController):
     def get_product(self):
         for i in range(3):
             self.slice()
+        return True
 
     def slice(self):
         ...

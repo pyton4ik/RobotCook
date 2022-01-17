@@ -41,7 +41,7 @@ class Operation():
     def cooking(self, mode):
         self.tool.get()
         self.manipulator.go_to_pos(self.dispenser.pick_up_point)
-        self.dispenser.dose()
+        self.dispenser.get_product()
         self._operation(mode)
         self.tool.parking()
 
@@ -59,7 +59,7 @@ class ChiefCooker:
             products = dispenser_config_elem
             for index, product in enumerate(products):
                 product_name = product.lower()
-                self._products[product_name] = Dispenser(product_name, index, *dispenser_config_elem)
+                self._products[product_name] = Dispenser(index, product_name, *dispenser_config_elem[1:])
 
     def _init_processing_centers(self):
         for name, angle, hardware_class_name in hardware.processing_center_config:
