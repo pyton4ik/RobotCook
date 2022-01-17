@@ -105,7 +105,7 @@ class ProcessingCenterController():
     def close(self):
         ...
 
-    def set_mode(self, mode):
+    def cooking(self, mode):
         ...
 
 

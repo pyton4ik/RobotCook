@@ -8,8 +8,8 @@ import hardware
 
 @pytest.mark.parametrize("hardware_controller",[hardware.ProcessingCenterController,
                                                 hardware.RosterProcessingCenterController])
-@pytest.mark.parametrize("angle,pickup_point",[(100, (163, 716, 345)),(150, (163, 716, 345))])
-def test_dosator(monkeypatch, angle, pickup_point, hardware_controller):
+@pytest.mark.parametrize("angle,pickup_point",[(100, (297, 844, 345)),(150, (214, 779, 345))])
+def test_center(monkeypatch, angle, pickup_point, hardware_controller):
     processing_center_obj = ProcessingCenter("MOCK CONTROLLER", angle, hardware_controller)
 
     assert processing_center_obj.name == "MOCK CONTROLLER"
@@ -22,11 +22,13 @@ def test_dosator(monkeypatch, angle, pickup_point, hardware_controller):
 
     monkeypatch.setattr(hardware_controller, "open", open_mock)
     monkeypatch.setattr(hardware_controller, "close", close_mock)
-    monkeypatch.setattr(hardware_controller, "set_mode", set_mode)
+    monkeypatch.setattr(hardware_controller, "cooking", set_mode)
 
-    processing_center_obj.hardware.open()
-    processing_center_obj.hardware.close()
-    processing_center_obj.hardware.set_mode("Grill")
+    processing_center_obj.open()
+    processing_center_obj.close()
+    processing_center_obj.cooking("Grill")
+
+    assert processing_center_obj.up_coordinates
 
     assert open_mock.mock_calls == [mock.call()]
     assert close_mock.mock_calls == [mock.call()]

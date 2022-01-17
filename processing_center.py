@@ -5,7 +5,7 @@ import hardware
 class ProcessingCenter(OrbitingElement):
     def __init__(self, name, angle, hardware_class):
         self.name = name
-        self._angle = angle
+        self.angle = angle
         self.hardware = hardware_class()
 
     def open(self):
