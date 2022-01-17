@@ -1,6 +1,7 @@
 from dispenser import OrbitingElement
 import hardware
 
+
 class ProcessingCenter(OrbitingElement):
     def __init__(self, angle, hardware_class):
         self._angle = angle

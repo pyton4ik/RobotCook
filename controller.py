@@ -27,6 +27,6 @@ class ReceiptControll:
 
         return map(ReceiptControll.get_dict_from_query, query_res)
 
+
 class PaymentControll:
     pass
-

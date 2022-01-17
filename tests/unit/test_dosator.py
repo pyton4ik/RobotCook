@@ -9,12 +9,13 @@ import pytest
 from dispenser import Dispenser
 import hardware
 
+
 @pytest.mark.parametrize("start_angle,elem_angle,pickup_point",
                          [(0, 5, (116, 613, 345)),
-                         (15, 5, (865, 663, 345)),
-                         (1, 30, (338, 865, 345)),
-                         (1, 45, (860, 327, 345))])
-def test_dosator(start_angle,elem_angle,pickup_point):
+                          (15, 5, (865, 663, 345)),
+                          (1, 30, (338, 865, 345)),
+                          (1, 45, (860, 327, 345))])
+def test_dosator(start_angle, elem_angle, pickup_point):
     dosator_obj = Dispenser(1, "MOCK PRODUCT", start_angle, elem_angle, hardware.DosatorController)
 
     assert dosator_obj.index == 1

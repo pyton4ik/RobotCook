@@ -88,9 +88,9 @@ BREAD_PRODUCTS_ARR = "bun top", "bun bottom", "hot dog"
 
 
 dispenser_config = [
-    (BOX_PRODUCTS_ARR,  0, 5, BoxDosatorController),
-    (BREAD_PRODUCTS_ARR, 15, 5,  BreadDosatorController),
-    (SLICER_PRODUCTS_ARR, 30, 5,  SlicerDosatorController),
+    (BOX_PRODUCTS_ARR, 0, 5, BoxDosatorController),
+    (BREAD_PRODUCTS_ARR, 15, 5, BreadDosatorController),
+    (SLICER_PRODUCTS_ARR, 30, 5, SlicerDosatorController),
     (SOUCE_PRODUCTS_ARR, 45, 5, SouceDosatorController),
 ]
 
@@ -123,6 +123,7 @@ class RosterProcessingCenterController(ProcessingCenterController):
 
     def turn_ten(self, index):
         ...
+
     def turn_fun(self):
         ...
 

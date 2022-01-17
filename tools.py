@@ -9,6 +9,7 @@ BASKET_PARKING_COORDINATES = 123, 321, 231
 PROCESSING_BASKET_PARKING_COORDINATES = 232, 282, 228
 UP_OFFSET = 100
 
+
 class Tool:
     """
     Common class for all Tools
