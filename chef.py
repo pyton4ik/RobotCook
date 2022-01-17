@@ -85,16 +85,15 @@ class ChiefCooker:
 
         return self._processing_centers[center_name]
 
-    def _check_recipe(self, recipe: list):
+    def _check_recipe(self, recipe: dict):
         if not recipe:
             raise ErrorReceiptConfiguration(details="Receipt is null")
 
-        qty_alarm_products_arr = [recipe_step["product"] for recipe_step in recipe
-                                  if not self._get_product_obj(recipe_step["product"]).is_have_required_amount]
-        if qty_alarm_products_arr:
-            message = "No required quantity for products".format(qty_alarm_products_arr)
-            self.cnc.alarm_notification(message)
-            raise NotReadyForCooking(details=message)
+        if not all([key in ["product", "operation", "time"] for key in recipe.keys()]):
+            raise ErrorReceiptConfiguration(details="Wrong Receipt dict keys")
+
+        if not all([self._get_product_obj(recipe_step["product"]).is_have_required_amount for recipe_step in recipe]):
+            raise NotReadyForCooking(details="Not enough products for cooking")
 
     def cook_to_to_recipe(self, recipe: list):
         self._check_recipe(recipe)
