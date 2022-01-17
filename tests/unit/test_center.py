@@ -6,9 +6,10 @@ import pytest
 from processing_center import ProcessingCenter
 import hardware
 
-@pytest.mark.parametrize("hardware_controller",[hardware.ProcessingCenterController,
-                                                hardware.RosterProcessingCenterController])
-@pytest.mark.parametrize("angle,pickup_point",[(100, (297, 844, 345)),(150, (214, 779, 345))])
+
+@pytest.mark.parametrize("hardware_controller", [hardware.ProcessingCenterController,
+                                                 hardware.RosterProcessingCenterController])
+@pytest.mark.parametrize("angle,pickup_point", [(100, (297, 844, 345)), (150, (214, 779, 345))])
 def test_center(monkeypatch, angle, pickup_point, hardware_controller):
     processing_center_obj = ProcessingCenter("MOCK CONTROLLER", angle, hardware_controller)
 

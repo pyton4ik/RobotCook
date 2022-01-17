@@ -9,18 +9,19 @@ import pytest
 from dispenser import Dispenser
 import hardware
 
+
 @pytest.mark.parametrize("hardware_dosator_controller",
                          [hardware.BoxDosatorController,
-                         hardware.SouceDosatorController,
-                         hardware.SlicerDosatorController,
-                         hardware.RefrigeratorDosatorController,
-                         hardware.BreadDosatorController])
+                          hardware.SouceDosatorController,
+                          hardware.SlicerDosatorController,
+                          hardware.RefrigeratorDosatorController,
+                          hardware.BreadDosatorController])
 @pytest.mark.parametrize("start_angle,elem_angle,pickup_point",
                          [(0, 5, (116, 613, 345)),
                           (15, 5, (865, 663, 345)),
                           (1, 30, (338, 865, 345)),
                           (1, 45, (860, 327, 345))])
-@pytest.mark.parametrize("hardware_qty,is_have_amount",[(0, False),(100500, True)])
+@pytest.mark.parametrize("hardware_qty,is_have_amount", [(0, False), (100500, True)])
 def test_dosator(monkeypatch, start_angle, elem_angle, pickup_point, hardware_dosator_controller,
                  hardware_qty, is_have_amount):
     dispenser_obj = Dispenser(1, "MOCK PRODUCT", start_angle, elem_angle, hardware_dosator_controller)
