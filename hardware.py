@@ -40,7 +40,8 @@ class DosatorController:
     def get_product(self):
         ...
 
-    def get_qty(self):
+    @property
+    def qty(self):
         return self._index ** 6
 
 

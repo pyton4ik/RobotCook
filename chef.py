@@ -1,20 +1,33 @@
 from time import sleep
-from cnc import ControllCenter
 from errors import ErrorReceiptConfiguration, ProductNotFoundInDosator, NotReadyForCooking
 from tools import ProcessingBasket, BoxBasket
 import hardware
 from dispenser import Dispenser
 from processing_center import ProcessingCenter
 
+operations = {p_center_config[0].lower(): ProcessingCenter(*p_center_config)
+              for p_center_config in hardware.processing_center_config}
+operations["oven"] = operations["grill"]
+operations["confection"] = operations["grill"]
 
-class Operation():
-    def __init__(self,
-                 ingredient_dispenser_obj: Dispenser,
-                 processing_center_obj: ProcessingCenter,
-                 operation_time):
-        self.dispenser = ingredient_dispenser_obj
-        self.p_center = processing_center_obj
-        self.operation_time = operation_time
+
+def init_products():
+    products = {}
+    for dispenser_config_elem in hardware.dispenser_config:
+        for index, product in enumerate(dispenser_config_elem[0]):
+            product_name = product.lower()
+            products[product_name] = Dispenser(index, product_name, *dispenser_config_elem[1:])
+    return products
+
+products = init_products()
+
+
+class Operation:
+    def __init__(self, product: str, operation: str, time: int):
+        self.dispenser = self._get_product_obj(product)
+        self.p_center = self._get_processing_center_obj(operation)
+        self.operation_time = time
+        self.operation = operation
 
         self.tool = BoxBasket()
         if self.operation:
@@ -29,7 +42,7 @@ class Operation():
         self.p_center.open()
         self.manipulator.go_to_pos(self.p_center.coordinates)
         self.p_center.close()
-        self.p_center.cooking(self.operation)
+        self.p_center.cooking(self.mode)
         sleep(self.operation_time)
         self.p_center.open()
         self.manipulator.go_to_pos(self.p_center.up_coordinates)
@@ -38,66 +51,63 @@ class Operation():
         self.tool.rotate()
         self.tool.rotate()
 
-    def cooking(self, mode):
+    def __call__(self, mode):
         self.tool.get()
         self.manipulator.go_to_pos(self.dispenser.pick_up_point)
         self.dispenser.get_product()
         self._operation(mode)
-        self.tool.parking()
 
-
-class ChiefCooker:
-    def __init__(self):
-        self.cnc = ControllCenter()
-        self.manipulator = hardware.ManipulatorController()
-
-        self._init_products()
-        self._init_processing_centers()
-
-    def _init_products(self):
-        for dispenser_config_elem in hardware.dispenser_config:
-            products = dispenser_config_elem
-            for index, product in enumerate(products):
-                product_name = product.lower()
-                self._products[product_name] = Dispenser(index, product_name, *dispenser_config_elem[1:])
-
-    def _init_processing_centers(self):
-        for name, angle, hardware_class_name in hardware.processing_center_config:
-            self._processing_centers[name.lower()] = ProcessingCenter(name, angle, hardware_class_name)
-
-        self._processing_centers["oven"] = self._processing_centers["grill"]
-        self._processing_centers["confection"] = self._processing_centers["grill"]
+        if self.p_center or not self.next_element_is_simple:
+            self.tool.parking()
 
     def _get_product_obj(self, product: str):
         product_name = product.lower()
-        if product_name not in self._products:
+        if product_name not in products:
             raise ProductNotFoundInDosator(product=product)
 
-        return self._products[product_name]
+        return products[product_name]
 
-    def _get_processing_center_obj(self, name: str):
-        if not name:
+    def _get_processing_center_obj(self, operation: str):
+        if not operation:
             return None
 
-        center_name = name.lower()
-        if center_name not in self._processing_centers:
-            raise ErrorReceiptConfiguration(details="Not found processing center with name {}". format(name))
+        operation_name = operation.lower()
+        if operation_name not in operations:
+            raise ErrorReceiptConfiguration(details="Not found operations with name {}". format(operation))
 
-        return self._processing_centers[center_name]
+        return operations[operation_name]
 
-    def _check_recipe(self, recipe: dict):
-        if not recipe:
+
+class Recipe:
+    def __init__(self, operations):
+        self.operations = (Operation(*recipe_item) for recipe_item in operations)
+        self._check_recipe()
+
+    def __call__(self, mode):
+        for operation in self._operations:
+            operation()
+
+    def __iter__(self):
+        self._iter_index = 0
+        return self
+
+    def __next__(self):
+        if self._iter_index <= len(self._operations)-1:
+            ret_val = self._operations[self._iter_index]
+            self._iter_index += 1
+            return ret_val
+        else:
+            raise StopIteration
+
+    def _check_recipe(self):
+        if not self.operations:
             raise ErrorReceiptConfiguration(details="Receipt is null")
 
-        if not all([key in ["product", "operation", "time"] for key in recipe.keys()]):
-            raise ErrorReceiptConfiguration(details="Wrong Receipt dict keys")
-
-        if not all([self._get_product_obj(recipe_step["product"]).is_have_required_amount for recipe_step in recipe]):
+        if not all(recipe_obj.dispenser.is_have_required_amount for recipe_obj in self.operations):
             raise NotReadyForCooking(details="Not enough products for cooking")
 
-    def cook_to_to_recipe(self, recipe: list):
-        self._check_recipe(recipe)
-        for recipe_step in recipe:
-            Operation(self._get_product_obj(recipe["product"]),
-                      self._get_processing_center_obj(recipe["operation"]),
-                      recipe["time"]).cooking(recipe["operation"])
+    def next_element_is_simple(self):
+        if self._iter_index+1 > len(self._operations)-1:
+            return False
+
+        return not self._operations[self._iter_index+1].p_center

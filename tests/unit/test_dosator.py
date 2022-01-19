@@ -31,17 +31,14 @@ def test_dosator(monkeypatch, start_angle, elem_angle, pickup_point, hardware_do
     assert dispenser_obj.coordinates == pickup_point
 
     get_product_mock = mock.Mock()
-    get_qty = mock.Mock(return_value=hardware_qty)
 
     monkeypatch.setattr(hardware_dosator_controller, "get_product", get_product_mock)
-    monkeypatch.setattr(hardware_dosator_controller, "get_qty", get_qty)
+    monkeypatch.setattr(hardware_dosator_controller, "qty", hardware_qty)
 
     # Check Liskov substitution principle
     dispenser_obj.get_product()
     assert dispenser_obj.is_have_required_amount == is_have_amount
-
     assert get_product_mock.mock_calls == [mock.call()]
-    assert get_qty.mock_calls == [mock.call(mock.ANY)]
 
 
 def test_souce_dosator(monkeypatch):

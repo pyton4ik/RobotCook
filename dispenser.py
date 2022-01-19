@@ -48,4 +48,4 @@ class Dispenser(OrbitingElement):
         If the product is not presented in the product_portion_qty_dict dictionary, then it is considered piece.
         :return: bool
         """
-        return self.hardware.get_qty(self.index) >= hardware.product_portion_qty_dict.get(self.name, 1)
+        return self.hardware.qty >= hardware.product_portion_qty_dict.get(self.name, 1)
