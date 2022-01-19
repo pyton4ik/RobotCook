@@ -5,10 +5,13 @@ import hardware
 from dispenser import Dispenser
 from processing_center import ProcessingCenter
 
-operations = {p_center_config[0].lower(): ProcessingCenter(*p_center_config)
-              for p_center_config in hardware.processing_center_config}
-operations["oven"] = operations["grill"]
-operations["confection"] = operations["grill"]
+
+def init_operations():
+    operations = {p_center_config[0].lower(): ProcessingCenter(*p_center_config)
+                  for p_center_config in hardware.processing_center_config}
+    operations["oven"] = operations["grill"]
+    operations["confection"] = operations["grill"]
+    return operations
 
 
 def init_products():
@@ -19,7 +22,9 @@ def init_products():
             products[product_name] = Dispenser(index, product_name, *dispenser_config_elem[1:])
     return products
 
+
 products = init_products()
+operations = init_operations()
 
 
 class Operation:
