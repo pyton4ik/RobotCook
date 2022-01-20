@@ -2,6 +2,7 @@
 Common class for all Dispensers
 """
 from math import sin, cos
+
 import hardware
 
 DISPENSER_Z_COORD = 345

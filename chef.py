@@ -1,4 +1,5 @@
 from time import sleep
+
 from errors import ErrorReceiptConfiguration, ProductNotFoundInDosator, NotReadyForCooking
 from tools import ProcessingBasket, BoxBasket
 import hardware

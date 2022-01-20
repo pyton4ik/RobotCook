@@ -46,10 +46,6 @@ class DosatorController:
         return self._index ** 6
 
 
-class BoxDosatorController(DosatorController):
-    ...
-
-
 class SouceDosatorController(DosatorController):
     def get_product(self):
         self._apply_pressure()
@@ -76,25 +72,20 @@ class SlicerDosatorController(DosatorController):
         ...
 
 
-class RefrigeratorDosatorController(DosatorController):
-    ...
-
-
-class BreadDosatorController(DosatorController):
-    ...
-
-
-BOX_PRODUCTS_ARR = "s", "m", "l"
+BOX_PRODUCTS_ARR = "box s", "box m", "box l"
 SOUCE_PRODUCTS_ARR = "mustard", "ketchup", "mayonnaise"
 SLICER_PRODUCTS_ARR = "onion", "tomato", "pickle"
 BREAD_PRODUCTS_ARR = "bun top", "bun bottom", "hot dog"
-
+REFRIGERATOR_PRODUCTS_ARR = "burger", "cheese", "sausage"
+MASH_PRODUCTS_ARR = "mashed potatoes",
 
 dispenser_config = [
-    (BOX_PRODUCTS_ARR, 0, 5, BoxDosatorController),
-    (BREAD_PRODUCTS_ARR, 15, 5, BreadDosatorController),
+    (BOX_PRODUCTS_ARR, 0, 5, DosatorController),
+    (BREAD_PRODUCTS_ARR, 15, 5, DosatorController),
     (SLICER_PRODUCTS_ARR, 30, 5, SlicerDosatorController),
     (SOUCE_PRODUCTS_ARR, 45, 5, SouceDosatorController),
+    (REFRIGERATOR_PRODUCTS_ARR, 75, 7, DosatorController),
+    (MASH_PRODUCTS_ARR, 75, 7, DosatorController),
 ]
 
 
