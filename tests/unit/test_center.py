@@ -29,7 +29,7 @@ def test_center(monkeypatch, angle, pickup_point, hardware_controller):
     processing_center_obj.close()
     processing_center_obj.cooking("Grill")
 
-    assert processing_center_obj.up_coordinates
+    assert processing_center_obj.up_coordinates == (mock.ANY, mock.ANY, mock.ANY)
 
     assert open_mock.mock_calls == [mock.call()]
     assert close_mock.mock_calls == [mock.call()]

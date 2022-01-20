@@ -1,3 +1,4 @@
+import copy
 from dispenser import OrbitingElement
 import hardware
 
@@ -17,5 +18,8 @@ class ProcessingCenter(OrbitingElement):
     def cooking(self, mode):
         self.hardware.cooking(mode)
 
+    @property
     def up_coordinates(self):
-        return self.coordinates[0:2, self.coordinates[3] - hardware.UP_OFFSET]
+        ret_val = list(self.coordinates)
+        ret_val[2] -= hardware.UP_OFFSET
+        return tuple(ret_val)

@@ -8,6 +8,7 @@ from time import sleep
 from errors import ErrorReceiptConfiguration
 
 SOUCE_OPEN_WAIT_TIME = 0
+UP_OFFSET = 100
 
 product_portion_qty_dict = {
     "onion": 15,
