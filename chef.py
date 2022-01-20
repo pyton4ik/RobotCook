@@ -41,14 +41,14 @@ class Operation:
 
         self.manipulator = hardware.ManipulatorController()
 
-    def _operation(self, mode):
+    def _operation(self):
         if not self.operation:
             return
 
         self.p_center.open()
         self.manipulator.go_to_pos(self.p_center.coordinates)
         self.p_center.close()
-        self.p_center.cooking(self.mode)
+        self.p_center.cooking(self.operation)
         sleep(self.operation_time)
         self.p_center.open()
         self.manipulator.go_to_pos(self.p_center.up_coordinates)
@@ -88,9 +88,10 @@ class Recipe:
     def __init__(self, operations):
         self.operations = (Operation(*recipe_item) for recipe_item in operations)
         self._check_recipe()
+        self._iter_index = 0
 
     def __call__(self, mode):
-        for operation in self._operations:
+        for operation in self.operations:
             operation()
 
     def __iter__(self):
@@ -98,12 +99,12 @@ class Recipe:
         return self
 
     def __next__(self):
-        if self._iter_index <= len(self._operations)-1:
-            ret_val = self._operations[self._iter_index]
+        if self._iter_index <= len(self.operations) - 1:
+            ret_val = self.operations[self._iter_index]
             self._iter_index += 1
             return ret_val
-        else:
-            raise StopIteration
+
+        raise StopIteration
 
     def _check_recipe(self):
         if not self.operations:
@@ -115,7 +116,7 @@ class Recipe:
             raise NotReadyForCooking(details="Not enough products {} for cooking".format(not_enough_products_arr))
 
     def next_element_is_simple(self):
-        if self._iter_index+1 > len(self._operations)-1:
+        if self._iter_index + 1 > len(self.operations) - 1:
             return False
 
-        return not self._operations[self._iter_index+1].p_center
+        return not self.operations[self._iter_index + 1].p_center
