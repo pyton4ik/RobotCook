@@ -23,6 +23,8 @@ Burger receipt example
 | Mustard     |             |             |
 | Bun top     |             |             |
 
+See recipes.csv file for more receipts.
+
 ## Processing centers
 Processing center **Roster** has ***Operations***: Grill, Oven, Confection\
 **Boiling water** with **Boiling**\
