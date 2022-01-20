@@ -1,1 +1,37 @@
-fries,
+fries,box s,,
+fries,fries,fryer,300
+hot dog,box m,,
+hot dog,hot dog bun,,
+hot dog,sausage,grill,180
+hot dog,mustard,,
+king hot dog,box m,,
+king hot dog,hot dog bun,,
+king hot dog,sausage,grill,180
+king hot dog,pickle,,
+king hot dog,tomato,,
+king hot dog,mustard,,
+hanburger,box m,,
+hanburger,bun bottom,,
+hanburger,mustard,,
+hanburger,burger,grill,180
+hanburger,onion,,
+hanburger,tomato,,
+hanburger,pickle,,
+hanburger,mustard,,
+hanburger,bun top,,
+cheeseburger,box m,,
+cheeseburger,bun bottom,,
+cheeseburger,mustard,,
+cheeseburger,burger,grill,180
+cheeseburger,cheese,oven,12
+cheeseburger,onion,,
+cheeseburger,tomato,,
+cheeseburger,pickle,,
+cheeseburger,mustard,,
+cheeseburger,bun top,,
+mashed potatoes,box l,,
+mashed potatoes,mashed potatoes,,
+mashed potatoes,burger,warm,180
+mashed potatoes,pickle,,
+mashed potatoes,onion,,
+mashed potatoes,tomato,,

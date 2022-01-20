@@ -43,7 +43,7 @@ class DosatorController:
 
     @property
     def qty(self):
-        return self._index ** 6
+        return 100500
 
 
 class SouceDosatorController(DosatorController):
@@ -75,8 +75,8 @@ class SlicerDosatorController(DosatorController):
 BOX_PRODUCTS_ARR = "box s", "box m", "box l"
 SOUCE_PRODUCTS_ARR = "mustard", "ketchup", "mayonnaise"
 SLICER_PRODUCTS_ARR = "onion", "tomato", "pickle"
-BREAD_PRODUCTS_ARR = "bun top", "bun bottom", "hot dog"
-REFRIGERATOR_PRODUCTS_ARR = "burger", "cheese", "sausage"
+BREAD_PRODUCTS_ARR = "bun top", "bun bottom", "hot dog bun"
+REFRIGERATOR_PRODUCTS_ARR = "burger", "cheese", "sausage", "fries"
 MASH_PRODUCTS_ARR = "mashed potatoes",
 
 dispenser_config = [
@@ -123,5 +123,5 @@ class RosterProcessingCenterController(ProcessingCenterController):
 
 
 processing_center_config = [("Grill", 100, RosterProcessingCenterController),
-                            ("Boiling", 120, ProcessingCenterController),
+                            ("Warm", 120, ProcessingCenterController),
                             ("Fryer", 150, ProcessingCenterController)]

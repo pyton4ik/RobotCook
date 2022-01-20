@@ -109,8 +109,10 @@ class Recipe:
         if not self.operations:
             raise ErrorReceiptConfiguration(details="Receipt is null")
 
-        if not all(recipe_obj.dispenser.is_have_required_amount for recipe_obj in self.operations):
-            raise NotReadyForCooking(details="Not enough products for cooking")
+        not_enough_products_arr = [recipe_obj.dispenser.name for recipe_obj in self.operations
+                                   if not recipe_obj.dispenser.is_have_required_amount]
+        if not_enough_products_arr:
+            raise NotReadyForCooking(details="Not enough products {} for cooking".format(not_enough_products_arr))
 
     def next_element_is_simple(self):
         if self._iter_index+1 > len(self._operations)-1:

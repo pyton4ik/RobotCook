@@ -10,12 +10,8 @@ from dispenser import Dispenser
 import hardware
 
 
-@pytest.mark.parametrize("hardware_dosator_controller",
-                         [hardware.BoxDosatorController,
-                          hardware.SouceDosatorController,
-                          hardware.SlicerDosatorController,
-                          hardware.RefrigeratorDosatorController,
-                          hardware.BreadDosatorController])
+@pytest.mark.parametrize("hardware_dosator_controller",[hardware.SouceDosatorController,
+                                                        hardware.SlicerDosatorController])
 @pytest.mark.parametrize("start_angle,elem_angle,pickup_point",
                          [(0, 5, (116, 613, 345)),
                           (15, 5, (865, 663, 345)),
