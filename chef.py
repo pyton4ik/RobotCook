@@ -86,12 +86,12 @@ class Operation:
 
 class Recipe:
     def __init__(self, operations):
-        self.operations = (Operation(*recipe_item) for recipe_item in operations)
+        self._operations = (Operation(*recipe_item) for recipe_item in operations)
         self._check_recipe()
-        self._iter_index = 0
+        self._iter_index = None
 
     def __call__(self, mode):
-        for operation in self.operations:
+        for operation in self._operations:
             operation()
 
     def __iter__(self):
@@ -99,24 +99,24 @@ class Recipe:
         return self
 
     def __next__(self):
-        if self._iter_index <= len(self.operations) - 1:
-            ret_val = self.operations[self._iter_index]
+        if self._iter_index <= len(self._operations) - 1:
+            ret_val = self._operations[self._iter_index]
             self._iter_index += 1
             return ret_val
 
         raise StopIteration
 
     def _check_recipe(self):
-        if not self.operations:
+        if not self._operations:
             raise ErrorReceiptConfiguration(details="Receipt is null")
 
-        not_enough_products_arr = [recipe_obj.dispenser.name for recipe_obj in self.operations
+        not_enough_products_arr = [recipe_obj.dispenser.name for recipe_obj in self._operations
                                    if not recipe_obj.dispenser.is_have_required_amount]
         if not_enough_products_arr:
             raise NotReadyForCooking(details="Not enough products {} for cooking".format(not_enough_products_arr))
 
     def next_element_is_simple(self):
-        if self._iter_index + 1 > len(self.operations) - 1:
+        if self._iter_index + 1 > len(self._operations) - 1:
             return False
 
-        return not self.operations[self._iter_index + 1].p_center
+        return not self._operations[self._iter_index + 1].p_center
