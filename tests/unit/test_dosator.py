@@ -37,7 +37,7 @@ def test_dosator(monkeypatch, start_angle, elem_angle, pickup_point, hardware_do
     assert get_product_mock.mock_calls == [mock.call()]
 
 
-def test_souce_dosator(monkeypatch):
+def test_souce_dosator(monkeypatch, path_mock_delay):
     mock_array = []
     for mock_attr in ["_apply_pressure", "_open_valve", "_close_valve"]:
         mock_obj = mock.Mock()

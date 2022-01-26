@@ -1,4 +1,3 @@
-import copy
 from dispenser import OrbitingElement
 import hardware
 

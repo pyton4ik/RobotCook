@@ -32,3 +32,7 @@ Processing center **Roster** has ***Operations***: Grill, Oven, Confection\
 ## Tools
 * Processing basket
 * Box basket
+
+## Database.
+Source of diagram docs/diagram.erd
+![cook bot!](./db_diagram.png "Database Diagram")

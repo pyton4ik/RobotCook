@@ -7,8 +7,9 @@ from time import sleep
 
 from errors import ErrorReceiptConfiguration
 
-SOUCE_OPEN_WAIT_TIME = 0
+SOUCE_OPEN_WAIT_TIME = 300
 UP_OFFSET = 100
+BASKET_PARKING_COORDINATES = 100, 200, 300
 
 product_portion_qty_dict = {
     "onion": 15,
@@ -65,7 +66,7 @@ class SouceDosatorController(DosatorController):
 
 class SlicerDosatorController(DosatorController):
     def get_product(self):
-        for i in range(3):
+        for _ in range(3):
             self.slice()
 
     def slice(self):
