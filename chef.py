@@ -1,5 +1,9 @@
+"""
+Module for cooking operations.
+Main class Recipe contain Operation's
+Init hardware Products and Operations instances.
+"""
 from time import sleep
-from dataclasses import dataclass
 
 from errors import ErrorReceiptConfiguration, ProductNotFoundInDosator, NotReadyForCooking
 from tools import ProcessingBasket, BoxBasket
@@ -9,20 +13,20 @@ from processing_center import ProcessingCenter
 
 
 def init_operations():
-    operations = {p_center_config[0].lower(): ProcessingCenter(*p_center_config)
+    opers = {p_center_config[0].lower(): ProcessingCenter(*p_center_config)
                   for p_center_config in hardware.processing_center_config}
-    operations["oven"] = operations["grill"]
-    operations["confection"] = operations["grill"]
-    return operations
+    opers["oven"] = opers["grill"]
+    opers["confection"] = opers["grill"]
+    return opers
 
 
 def init_products():
-    products = {}
+    prods = {}
     for dispenser_config_elem in hardware.dispenser_config:
         for index, product in enumerate(dispenser_config_elem[0]):
             product_name = product.lower()
-            products[product_name] = Dispenser(index, product_name, *dispenser_config_elem[1:])
-    return products
+            prods[product_name] = Dispenser(index, product_name, *dispenser_config_elem[1:])
+    return prods
 
 
 products = init_products()
@@ -47,7 +51,11 @@ def get_processing_center_obj(operation: str):
 
     return operations[operation_name]
 
-class Operation:
+
+class Operation:  # pylint: disable=too-few-public-methods
+    """
+    The sequence of Operation for preparing a Recipe.
+    """
     def __init__(self, product: str, operation: str, time: int):
         self.dispenser = get_product_obj(product)
         self.p_center = get_processing_center_obj(operation)
@@ -80,16 +88,18 @@ class Operation:
         self.tool.get()
         self.manipulator.go_to_pos(*self.dispenser.pick_up_point)
         self.dispenser.get_product()
-        self._operation(mode)
+        self.operation(mode)
 
         if self.p_center or not self.next_element_is_simple:
             self.tool.parking()
 
 
-@dataclass
 class Recipe:
-    def __init__(self, operations):
-        self.operations = (Operation(*recipe_item) for recipe_item in operations)
+    """
+    Generate Operations list and cook this.
+    """
+    def __init__(self, oper):
+        self.operations = (Operation(*recipe_item) for recipe_item in oper)
         self._check_recipe()
         self._iter_index = None
 

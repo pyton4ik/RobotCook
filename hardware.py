@@ -1,7 +1,6 @@
 """
-Abstract layer for manipulator controller
+This file contain hardware constants and hardware adapters for all devices.
 """
-# pylint: disable=missing-class-docstring
 # pylint: disable=missing-function-docstring
 from time import sleep
 
@@ -22,20 +21,32 @@ product_portion_qty_dict = {
 
 
 class ManipulatorController:
+    """
+    This is a main part or system.
+    Robot Arm manipulator.
+    Delivers products to the box and processing centers.
+    """
     def go_to_pos(self, x, y, z):
         pass
 
     def get(self):
+        """Get tool ex. Basket"""
         pass
 
     def drop(self):
+        """Drop tool ex. Basket"""
         pass
 
     def turn(self, degrees):
+        """Rorate tool for degree"""
         pass
 
 
 class DosatorController:
+    """
+    Common pattern for all dispensers
+    Based Design pattern "Adapter"
+    """
     def __init__(self, index: int):
         self._index = index
 
@@ -78,7 +89,7 @@ SOUCE_PRODUCTS_ARR = "mustard", "ketchup", "mayonnaise"
 SLICER_PRODUCTS_ARR = "onion", "tomato", "pickle"
 BREAD_PRODUCTS_ARR = "bun top", "bun bottom", "hot dog bun"
 REFRIGERATOR_PRODUCTS_ARR = "burger", "cheese", "sausage", "fries"
-MASH_PRODUCTS_ARR = "mashed potatoes",
+MASH_PRODUCTS_ARR = "mashed potatoes", "mashed beans"
 
 dispenser_config = [
     (BOX_PRODUCTS_ARR, 0, 5, DosatorController),
@@ -91,6 +102,11 @@ dispenser_config = [
 
 
 class ProcessingCenterController():
+    """
+    Common pattern for all Processing Centers.
+    Based Design pattern "Adapter".
+    Redefine common methods with hardware needs.
+    """
     def open(self):
         ...
 

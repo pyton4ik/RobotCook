@@ -1,8 +1,16 @@
+"""
+Now have 3 centers: Rosteк, Fryer, Boiling water.
+Each has a lid that opens to put the product in or take it out.
+"""
 from dispenser import OrbitingElement
 import hardware
 
 
 class ProcessingCenter(OrbitingElement):
+    """
+    a place where food is prepared.
+    Can have multiple modes of operation
+    """
     def __init__(self, name, angle, hardware_class):
         self.name = name
         self.angle = angle
