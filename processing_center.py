@@ -1,5 +1,6 @@
 """
 Now have 3 centers: Rosteк, Fryer, Boiling water.
+Center can do
 Each has a lid that opens to put the product in or take it out.
 """
 from dispenser import OrbitingElement

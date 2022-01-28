@@ -1,3 +1,10 @@
+"""
+Database models.
+Based tables Products, Orders.
+Include calculate fields. Auto create if not exist.
+Tests Default path for SQLite tests/storage.db
+See diagram docs/db_diagram.png
+"""
 from sqlalchemy import Float, Boolean, String, DateTime, Computed, Column, Integer, ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.hybrid import hybrid_property
@@ -54,6 +61,10 @@ class Order(Base):
     @hybrid_property
     def total(self):
         return sum(order_item.total for order_item in self.order_items)
+
+    @hybrid_property
+    def is_done(self):
+        return all(order_item.remaining_qty <= 0 for order_item in self.order_items)
 
 
 class OrderItems(Base):

@@ -2,6 +2,8 @@
 This file contain hardware constants and hardware adapters for all devices.
 """
 # pylint: disable=missing-function-docstring
+# pylint: disable=no-self-use
+# pylint: disable=unused-argument
 from time import sleep
 
 from errors import ErrorReceiptConfiguration
@@ -27,19 +29,19 @@ class ManipulatorController:
     Delivers products to the box and processing centers.
     """
     def go_to_pos(self, x, y, z):
-        pass
+        ...
 
     def get(self):
         """Get tool ex. Basket"""
-        pass
+        ...
 
     def drop(self):
         """Drop tool ex. Basket"""
-        pass
+        ...
 
     def turn(self, degrees):
         """Rorate tool for degree"""
-        pass
+        ...
 
 
 class DosatorController:

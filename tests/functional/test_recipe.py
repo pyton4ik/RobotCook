@@ -11,10 +11,12 @@ from chef import Recipe
 def csv_receipt_list():
     csv_file_path = Path(__file__).parent.parent.parent / 'recipes.csv'
     with open(str(csv_file_path)) as csvfile:
-        return list(csv.reader(csvfile))
+        reader = csv.DictReader(csvfile)
+        next(reader)
+        return list(reader)
 
 
 def test_recipes(csv_receipt_list):
-    receipt_names = {line[0] for line in csv_receipt_list}
+    receipt_names = {line["name"] for line in csv_receipt_list if line["name"] != "name"}
     for receipt_name in receipt_names:
-        Recipe([line[1:] for line in csv_receipt_list if line[0] == receipt_name])
+        Recipe([line for line in csv_receipt_list if line["name"] == receipt_name])

@@ -14,7 +14,7 @@ from processing_center import ProcessingCenter
 
 def init_operations():
     opers = {p_center_config[0].lower(): ProcessingCenter(*p_center_config)
-                  for p_center_config in hardware.processing_center_config}
+             for p_center_config in hardware.processing_center_config}
     opers["oven"] = opers["grill"]
     opers["confection"] = opers["grill"]
     return opers
@@ -56,8 +56,8 @@ class Operation:  # pylint: disable=too-few-public-methods
     """
     The sequence of Operation for preparing a Recipe.
     """
-    def __init__(self, product: str, operation: str, time: int):
-        self.dispenser = get_product_obj(product)
+    def __init__(self, ingredient: str, operation: str, time: int, **_):
+        self.dispenser = get_product_obj(ingredient)
         self.p_center = get_processing_center_obj(operation)
         self.operation_time = time
         self.operation = operation
@@ -84,14 +84,15 @@ class Operation:  # pylint: disable=too-few-public-methods
         self.tool.rotate()
         self.tool.rotate()
 
-    def __call__(self, mode):
+    def curr_call(self, mode):
         self.tool.get()
         self.manipulator.go_to_pos(*self.dispenser.pick_up_point)
         self.dispenser.get_product()
         self.operation(mode)
+        self.tool.drop()
 
-        if self.p_center or not self.next_element_is_simple:
-            self.tool.parking()
+    def __call__(self, mode):
+        self.curr_call(mode)
 
 
 class Recipe:
@@ -99,7 +100,8 @@ class Recipe:
     Generate Operations list and cook this.
     """
     def __init__(self, oper):
-        self.operations = (Operation(*recipe_item) for recipe_item in oper)
+        self.operations = (Operation(**dict(recipe_item)) for recipe_item in oper)
+
         self._check_recipe()
         self._iter_index = None
 
@@ -107,18 +109,6 @@ class Recipe:
         for operation in self.operations:
             operation()
         return True
-
-    def __iter__(self):
-        self._iter_index = 0
-        return self
-
-    def __next__(self):
-        if self._iter_index <= len(self.operations) - 1:
-            ret_val = self.operations[self._iter_index]
-            self._iter_index += 1
-            return ret_val
-
-        raise StopIteration
 
     def _check_recipe(self):
         if not self.operations:

@@ -1,3 +1,6 @@
+"""
+Controller Adapter methods for control cooking.
+"""
 # pylint: disable=missing-function-docstring
 
 import mock
@@ -6,7 +9,7 @@ import pytest
 from controller import get_products_list, create_product_order, cook_product_order, create_from_raw_recipe
 
 
-def test_get_products_list(monkeypatch, db_init_products, database):
+def test_get_products_list(db_init_products, database):
     res = get_products_list(database)
     assert len(res) == 3
     assert res[0].name == "test_sale_product0"
@@ -20,9 +23,9 @@ def test_create_product_order(database, db_init_products):
     for product in db_init_products:
         assert len(product.order_items) == 0
 
-    order = create_product_order(database, [(db_init_products[0].id, 1),
-                                            (db_init_products[1].id, 2),
-                                            (db_init_products[2].id, 3)])
+    order = create_product_order(database, order_items=[{"product_id": db_init_products[0].id, "qty": 1},
+                                                        {"product_id": db_init_products[1].id, "qty": 2},
+                                                        {"product_id": db_init_products[2].id, "qty": 3}])
 
     for product in db_init_products:
         assert len(product.order_items) > 0

@@ -14,7 +14,7 @@ def path_mock_delay(monkeypatch):
 def database():
     db = SessionLocal()
     try:
-        return db  # TODO? yield db
+        yield db
     finally:
         db.close()
 
@@ -43,9 +43,9 @@ def db_init_products(database):
 
 @pytest.fixture
 def raw_recipe_hot_dog(path_mock_delay):
-    return [("box m", None, None),
-            ("hot dog bun", None, None),
-            ("sausage", "grill", 180),
-            ("pickle", None, None),
-            ("tomato", None, None),
-            ("mustard", None, None)]
+    return [{"ingredient": "box m", "operation": None, "time": None},
+            {"ingredient": "hot dog bun", "operation": None, "time": None},
+            {"ingredient": "sausage", "operation": "grill", "time": 180},
+            {"ingredient": "pickle", "operation": None, "time": None},
+            {"ingredient": "tomato", "operation": None, "time": None},
+            {"ingredient": "mustard", "operation": None, "time": None}]

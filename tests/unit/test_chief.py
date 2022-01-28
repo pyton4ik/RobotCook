@@ -8,11 +8,11 @@ from hardware import SouceDosatorController
 
 
 @pytest.mark.parametrize("wrong_recipe_item,reises_class",
-                         [(("ketchup", None, None), NotReadyForCooking),
-                          (("spam", None, None), ProductNotFoundInDosator),
-                          (("mayonnaise", "Nemo", None), ErrorReceiptConfiguration)])
+                         [({"ingredient": "ketchup", "operation": None, "time": None}, NotReadyForCooking),
+                          ({"ingredient": "spam", "operation": None, "time": None}, ProductNotFoundInDosator),
+                          ({"ingredient": "mayonnaise", "operation": "Nemo", "time": None}, ErrorReceiptConfiguration)])
 def test_wrong_recipie_(monkeypatch, wrong_recipe_item, reises_class):
-    if wrong_recipe_item[0] == "ketchup":
+    if wrong_recipe_item["ingredient"] == "ketchup":
         monkeypatch.setattr(SouceDosatorController, "qty", 0)
 
     with pytest.raises(reises_class):
