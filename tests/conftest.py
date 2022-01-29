@@ -1,4 +1,5 @@
 import pytest
+import mock
 
 from database import SessionLocal
 import hardware
@@ -42,6 +43,11 @@ def db_init_products(database):
 
 
 @pytest.fixture
+def db_init_products_dict(db_init_products):
+    return [{"product_id": product.id, "qty": product.id} for product in db_init_products]
+
+
+@pytest.fixture
 def raw_recipe_hot_dog(path_mock_delay):
     return [{"ingredient": "box m", "operation": None, "time": None},
             {"ingredient": "hot dog bun", "operation": None, "time": None},
@@ -49,3 +55,28 @@ def raw_recipe_hot_dog(path_mock_delay):
             {"ingredient": "pickle", "operation": None, "time": None},
             {"ingredient": "tomato", "operation": None, "time": None},
             {"ingredient": "mustard", "operation": None, "time": None}]
+
+
+@pytest.fixture
+def product_dict():
+    return {
+        "id": 1,
+        "name": "test_sale_product0",
+        "price": 99.98,
+        "type": "sale"
+    }
+
+
+@pytest.fixture
+def order_dict():
+    return {
+        "id": mock.ANY,
+        "name": "fastapi_test_order",
+        "ref": "555",
+        "state": "draft",
+        "total": mock.ANY,
+        "total_payment": 0.00,
+        "is_paid": False,
+        "is_done": False,
+        "order_items": mock.ANY
+    }

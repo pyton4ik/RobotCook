@@ -101,9 +101,7 @@ class Recipe:
     """
     def __init__(self, oper):
         self.operations = (Operation(**dict(recipe_item)) for recipe_item in oper)
-
         self._check_recipe()
-        self._iter_index = None
 
     def __call__(self, mode):
         for operation in self.operations:
@@ -118,9 +116,3 @@ class Recipe:
                                    if not recipe_obj.dispenser.is_have_required_amount]
         if not_enough_products_arr:
             raise NotReadyForCooking(details="Not enough products {} for cooking".format(not_enough_products_arr))
-
-    def next_element_is_simple(self):
-        if self._iter_index + 1 > len(self.operations) - 1:
-            return False
-
-        return not self.operations[self._iter_index + 1].p_center
