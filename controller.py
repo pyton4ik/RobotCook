@@ -5,6 +5,14 @@ from sqlalchemy.orm import Session
 
 from models import Order, OrderItems, Product, Receipt
 from chef import Recipe
+from errors import ProductNotFound
+
+
+def get_product(db: Session, product_id):
+    res = db.query(Product).filter(Product.id == product_id).first()
+    if res is None:
+        raise ProductNotFound(product=product_id)
+    return res
 
 
 def get_products_list(db: Session):
@@ -38,13 +46,17 @@ def get_order_obj(db: Session, order_id: int):
     return db.query(Order).filter(Order.id == order_id).first()
 
 
+def get_receipt_item(db: Session, product_id: int):
+    receipt_objs = db.query(Receipt).filter(Receipt.product_id == product_id).all()
+    return [{"ingredient": recipe_item.ingredient,
+             "operation": recipe_item.operation,
+             "time": recipe_item.wait_time} for recipe_item in receipt_objs]
+
+
 def cook_product_order(db: Session, order_id: int):
     order_obj = get_order_obj(db, order_id)
     for order_item in order_obj.order_items:
-        receipt_objs = db.query(Receipt).filter(Receipt.product_id == order_item.product_id).all()
-        receipt = [{"ingredient": recipe_item.ingredient,
-                    "operation": recipe_item.operation,
-                    "time": recipe_item.wait_time} for recipe_item in receipt_objs]
+        receipt = get_receipt_item(db, order_item.product_id)
         if order_item.remaining_qty > 0:
             for _ in range(order_item.remaining_qty):
                 if create_from_raw_recipe(receipt):
@@ -54,5 +66,11 @@ def cook_product_order(db: Session, order_id: int):
     return order_obj
 
 
-def create_from_raw_recipe(items):
-    return Recipe(items)
+async def cook_product_id(db: Session, product_id: int, node=""):
+    receipt = get_receipt_item(db, product_id)
+    await create_from_raw_recipe(receipt)
+    print ("The node {} has finished cooking the product {}".format(node, product_id))
+
+
+async def create_from_raw_recipe(items):
+    return await Recipe(items)()

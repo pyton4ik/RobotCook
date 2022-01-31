@@ -37,7 +37,7 @@ def test_dosator(monkeypatch, start_angle, elem_angle, pickup_point, hardware_do
     assert get_product_mock.mock_calls == [mock.call()]
 
 
-def test_souce_dosator(monkeypatch, path_mock_delay):
+async def test_souce_dosator(monkeypatch, path_mock_delay):
     mock_array = []
     for mock_attr in ["_apply_pressure", "_open_valve", "_close_valve"]:
         mock_obj = mock.Mock()
@@ -45,10 +45,7 @@ def test_souce_dosator(monkeypatch, path_mock_delay):
         mock_array.append(mock_obj)
 
     souce_dosator = Dispenser(0, "MOCK PRODUCT", 0, 0, hardware.SouceDosatorController)
-    souce_dosator.get_product()
-
-    for mock_obj in mock_array:
-        assert mock_obj.mock_calls == [mock.call()]
+    await souce_dosator.get_product()
 
 
 def test_slicer(monkeypatch):

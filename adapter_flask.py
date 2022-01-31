@@ -47,7 +47,7 @@ def cook_product_order():
 
 
 @app.route("/raw_recipe/", methods=["POST"])
-def create_raw_recipe():
+async def create_raw_recipe():
     request_data = request.get_json()
-    controller.create_from_raw_recipe(request_data["items"])
+    await controller.create_from_raw_recipe(request_data["items"])
     return jsonify(success=True)

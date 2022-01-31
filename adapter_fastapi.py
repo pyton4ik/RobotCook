@@ -29,8 +29,7 @@ def read_products(db: Session = Depends(get_db)):
 
 @app.post("/order/", response_model=schemas.ReadOrder)
 def create_order(datas: schemas.CreateOrder, db: Session = Depends(get_db)):
-    ret_val = controller.create_product_order(db, **dict(datas))
-    return ret_val
+    return controller.create_product_order(db, **dict(datas))
 
 
 @app.get("/order/cook/{order_id}", response_model=schemas.ReadOrder)
@@ -50,5 +49,5 @@ def read_order(order_id: int, db: Session = Depends(get_db)):
 
 
 @app.post("/raw_recipe/")
-def create_raw_recipe(datas: schemas.RawOrder):
-    return controller.create_from_raw_recipe(datas.items)
+async def create_raw_recipe(datas: schemas.RawOrder):
+    await controller.create_from_raw_recipe(datas.items)

@@ -23,6 +23,13 @@ class BaseError(Exception):
         return "{}:{}".format(self.name or self.__class__.__name__, self.error_message)
 
 
+class ProductNotFound(BaseError):
+    """
+    Exceptional. it shouldn't happen.
+    """
+    message = "Product '{product}' not found."
+
+
 class ProductNotFoundInDosator(BaseError):
     """
     Exceptional. it shouldn't happen.

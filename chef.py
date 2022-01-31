@@ -3,7 +3,7 @@ Module for cooking operations.
 Main class Recipe contain Operation's
 Init hardware Products and Operations instances.
 """
-from time import sleep
+import asyncio
 
 from errors import ErrorReceiptConfiguration, ProductNotFoundInDosator, NotReadyForCooking
 from tools import ProcessingBasket, BoxBasket
@@ -76,7 +76,7 @@ class Operation:  # pylint: disable=too-few-public-methods
         self.manipulator.go_to_pos(*self.p_center.coordinates)
         self.p_center.close()
         self.p_center.cooking(self.operation)
-        sleep(self.operation_time)
+        asyncio.sleep(self.operation_time)
         self.p_center.open()
         self.manipulator.go_to_pos(*self.p_center.up_coordinates)
         self.p_center.close()
@@ -84,15 +84,15 @@ class Operation:  # pylint: disable=too-few-public-methods
         self.tool.rotate()
         self.tool.rotate()
 
-    def curr_call(self, mode):
+    def curr_call(self):
         self.tool.get()
         self.manipulator.go_to_pos(*self.dispenser.pick_up_point)
         self.dispenser.get_product()
-        self.operation(mode)
+        self._operation()
         self.tool.drop()
 
-    def __call__(self, mode):
-        self.curr_call(mode)
+    def __call__(self):
+        self.curr_call()
 
 
 class Recipe:
@@ -103,9 +103,9 @@ class Recipe:
         self.operations = (Operation(**dict(recipe_item)) for recipe_item in oper)
         self._check_recipe()
 
-    def __call__(self, mode):
+    async def __call__(self):
         for operation in self.operations:
-            operation()
+            await operation()()
         return True
 
     def _check_recipe(self):

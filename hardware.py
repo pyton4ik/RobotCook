@@ -4,7 +4,7 @@ This file contain hardware constants and hardware adapters for all devices.
 # pylint: disable=missing-function-docstring
 # pylint: disable=no-self-use
 # pylint: disable=unused-argument
-from time import sleep
+import asyncio
 
 from errors import ErrorReceiptConfiguration
 
@@ -61,10 +61,10 @@ class DosatorController:
 
 
 class SouceDosatorController(DosatorController):
-    def get_product(self):
+    async def get_product(self):
         self._apply_pressure()
         self._open_valve()
-        sleep(SOUCE_OPEN_WAIT_TIME)
+        await asyncio.sleep(SOUCE_OPEN_WAIT_TIME)
         self._close_valve()
 
     def _apply_pressure(self):

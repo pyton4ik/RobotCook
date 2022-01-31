@@ -39,5 +39,5 @@ def test_cook_product_order(database, db_init_products):
     assert sum(item.remaining_qty for item in order_obj.order_items) == 0
 
 
-def test_create_from_raw_recipe(database, raw_recipe_hot_dog):
-    assert create_from_raw_recipe(raw_recipe_hot_dog)
+async def test_create_from_raw_recipe(database, raw_recipe_hot_dog):
+    await create_from_raw_recipe(raw_recipe_hot_dog)
