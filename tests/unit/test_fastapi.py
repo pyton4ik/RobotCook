@@ -3,6 +3,8 @@ import pytest
 
 from fastapi.testclient import TestClient
 from adapter_fastapi import app
+from adapter_aiohttp import ROUTERS
+from aiohttp import web
 
 
 @pytest.fixture

@@ -13,25 +13,26 @@ from database import SessionLocal
 from schemas import Product, ReadOrder
 
 app = Flask(__name__)
+session = SessionLocal()
 
 
 @app.route("/products/", methods=["GET"])
 def read_products():
-    parsed_objs = parse_obj_as(List[Product], controller.get_products_list(SessionLocal()))
+    parsed_objs = parse_obj_as(List[Product], controller.get_products_list(session))
     return jsonify([item.dict() for item in parsed_objs])
 
 
 @app.route("/order/", methods=["POST"])
 def create_order():
     request_data = request.get_json()
-    res = controller.create_product_order(SessionLocal(), **dict(request_data))
+    res = controller.create_product_order(session, **dict(request_data))
     return jsonify(ReadOrder.from_orm(res).dict())
 
 
 @app.route("/order/", methods=["GET"])
 def read_order():
     order_id = request.args.get("order_id")
-    res = controller.get_order_obj(SessionLocal(), order_id)
+    res = controller.get_order_obj(session, order_id)
     if not res:
         abort(404, description="Order not found")
     return jsonify(ReadOrder.from_orm(res).dict())
@@ -40,7 +41,7 @@ def read_order():
 @app.route("/order/cook/", methods=["GET"])
 def cook_product_order():
     order_id = request.args.get("order_id")
-    res = controller.get_order_obj(SessionLocal(), order_id)
+    res = controller.get_order_obj(session, order_id)
     if not res:
         abort(404, description="Order not found")
     return jsonify(ReadOrder.from_orm(res).dict())
