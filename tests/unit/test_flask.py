@@ -14,7 +14,7 @@ def flask_client():
 @pytest.fixture
 def flask_order_params(db_init_products_dict):
     return {"name": "flask_test_order",
-            "ref": "Flask555",
+            "ref": "Flask777",
             "order_items": db_init_products_dict}
 
 

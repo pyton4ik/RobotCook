@@ -20,6 +20,7 @@ def get_products_list(db: Session):
 
 
 def create_product_order(db: Session, **kwargs):
+    """Create product order in DB but not cooking it"""
 
     curr_kwargs = kwargs.copy()
     items = curr_kwargs.pop("order_items")
@@ -43,10 +44,21 @@ def create_product_order(db: Session, **kwargs):
 
 
 def get_order_obj(db: Session, order_id: int):
+    """
+    :param db: Alchemy Session
+    :param order_id: order ID
+    :return: Alchemy Order object
+    """
     return db.query(Order).filter(Order.id == order_id).first()
 
 
 def get_receipt_item(db: Session, product_id: int):
+    """
+
+    :param db: Alchemy Session
+    :param product_id: Product ID
+    :return: Receip Array dict with keys (ingredient, operation, time)
+    """
     receipt_objs = db.query(Receipt).filter(Receipt.product_id == product_id).all()
     return [{"ingredient": recipe_item.ingredient,
              "operation": recipe_item.operation,
@@ -63,6 +75,8 @@ def cook_product_order(db: Session, order_id: int):
                     order_item.processed_qty += 1
                     db.commit()
 
+    order_obj.state = "ready"
+    db.commit()
     return order_obj
 
 

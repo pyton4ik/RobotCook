@@ -73,7 +73,7 @@ def order_dict():
         "id": mock.ANY,
         "name": "fastapi_test_order",
         "ref": "555",
-        "state": "draft",
+        "state": mock.ANY,
         "total": mock.ANY,
         "total_payment": 0.00,
         "is_paid": False,
