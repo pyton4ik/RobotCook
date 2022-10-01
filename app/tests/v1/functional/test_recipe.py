@@ -8,7 +8,9 @@ from app.v1.chef import Recipe
 
 @pytest.fixture
 def csv_receipt_list():
-    csv_file_path = Path(__file__).parent.parent.parent / "recipes.csv"
+    csv_file_path = (
+        Path(__file__).parent.parent.parent.parent.parent / "datas" / "recipes.csv"
+    )
     with open(str(csv_file_path)) as csvfile:
         reader = csv.DictReader(csvfile)
         next(reader)

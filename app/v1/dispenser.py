@@ -4,7 +4,7 @@ Common class for all Dispensers
 from math import cos
 from math import sin
 
-import hardware
+from app.v1 import hardware
 
 DISPENSER_Z_COORD = 345
 ZERO_POINT = 500, 500

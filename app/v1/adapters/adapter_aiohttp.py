@@ -1,11 +1,12 @@
 from typing import List
 
-import controller
 from aiohttp import web
-from database import SessionLocal
 from pydantic import parse_obj_as
-from schemas import Product
-from schemas import ReadOrder
+
+from app.v1 import controller
+from app.v1.database import SessionLocal
+from app.v1.schemas import Product
+from app.v1.schemas import ReadOrder
 
 session = SessionLocal()
 

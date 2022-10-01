@@ -3,15 +3,16 @@ Test for Flask adapter
 """
 from typing import List
 
-import controller
-from database import SessionLocal
 from flask import abort
 from flask import Flask
 from flask import jsonify
 from flask import request
 from pydantic import parse_obj_as
-from schemas import Product
-from schemas import ReadOrder
+
+from app.v1 import controller
+from app.v1.database import SessionLocal
+from app.v1.schemas import Product
+from app.v1.schemas import ReadOrder
 
 app = Flask(__name__)
 session = SessionLocal()

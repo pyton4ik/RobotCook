@@ -3,7 +3,7 @@ This file contain hardware constants and hardware adapters for all devices.
 """
 import asyncio
 
-from errors import ErrorReceiptConfiguration
+from app.v1.errors import ErrorReceiptConfiguration
 
 SOUCE_OPEN_WAIT_TIME = 300
 UP_OFFSET = 100
@@ -121,18 +121,20 @@ class ProcessingCenterController:
 
 class RosterProcessingCenterController(ProcessingCenterController):
     def set_mode(self, mode):
-        if mode == "Grill":
-            self.turn_ten(1)
-            self.turn_ten(2)
-        elif mode == "Oven":
-            self.turn_ten(1)
-            self.turn_ten(2)
-            self.turn_fun()
-        elif mode == "Confection":
-            self.turn_ten(2)
-            self.turn_fun()
-        else:
-            raise ErrorReceiptConfiguration(details=f"Wrong Roster mode {mode}")
+        """Какой я современный"""
+        match mode:
+            case "Grill":
+                self.turn_ten(1)
+                self.turn_ten(2)
+            case "Oven":
+                self.turn_ten(1)
+                self.turn_ten(2)
+                self.turn_fun()
+            case "Confection":
+                self.turn_ten(2)
+                self.turn_fun()
+            case _:
+                raise ErrorReceiptConfiguration(details=f"Wrong Roster mode {mode}")
 
     def turn_ten(self, index):
         ...

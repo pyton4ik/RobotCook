@@ -5,14 +5,14 @@ Init hardware Products and Operations instances.
 """
 import asyncio
 
-import hardware
-from dispenser import Dispenser
-from errors import ErrorReceiptConfiguration
-from errors import NotReadyForCooking
-from errors import ProductNotFoundInDosator
-from processing_center import ProcessingCenter
-from tools import BoxBasket
-from tools import ProcessingBasket
+from app.v1 import hardware
+from app.v1.dispenser import Dispenser
+from app.v1.errors import ErrorReceiptConfiguration
+from app.v1.errors import NotReadyForCooking
+from app.v1.errors import ProductNotFoundInDosator
+from app.v1.processing_center import ProcessingCenter
+from app.v1.tools import BoxBasket
+from app.v1.tools import ProcessingBasket
 
 
 def init_operations():

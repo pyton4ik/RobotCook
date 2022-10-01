@@ -1,15 +1,16 @@
 """
 Scheamas module
 """
-import controller
-import models
-import schemas
-from database import engine
-from database import SessionLocal
 from fastapi import Depends
 from fastapi import FastAPI
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
+
+from app.v1 import controller
+from app.v1 import models
+from app.v1 import schemas
+from app.v1.database import engine
+from app.v1.database import SessionLocal
 
 models.Base.metadata.create_all(bind=engine)
 app = FastAPI()

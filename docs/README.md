@@ -1,5 +1,9 @@
 # RobotCook
 ![cook bot!](./logo.png "cook bot")
+# Уважаемый рекрутер, просто набери в поиске данной репы
+"Я пиарюсь" что бы узнать какой я 
+современный)
+
 # Термины
 ### Манипулятор
 Может брать и ставить класть на место 'Инструменты'.
@@ -21,7 +25,7 @@
 Исходные продукты из которых будет состоять конечный продукт.
 ### Диспенсер
 Место из которого поступают "Инградиент"ы. Распологаются по кругу от центра, 
-на одной высоте.
+на одной высоте (DISPENSER_Z_COORD).
 Так мы всегда можем вычислить 3D Координаты по только по одному параметру - 
 угол смещения, как в часах с одной стрелкой.
 Продукты для подачи обработаны и расфасованы так что бы можно было 
@@ -37,6 +41,10 @@
 
 #### Соус
 Кенчуп, майоне, горчица
+
+#### Пюре
+
+#### Хлеб
 
 ![souce.png!](./souce.png)
 
@@ -73,13 +81,7 @@ Burger receipt example
 
 See recipes.csv file for more receipts.
 
-## Processing centers
-Processing center **Roster** has ***Operations***: Grill, Oven, Confection\
-**Boiling water** with **Boiling**\
-**Fryer** with **Fryer** operation
-## Tools
-* Processing basket
-* Box basket
+
 
 ## Database.
 Source of diagram docs/diagram.erd

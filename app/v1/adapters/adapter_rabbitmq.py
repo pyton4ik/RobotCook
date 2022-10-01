@@ -3,9 +3,10 @@ RabbitMq layer adapter
 """
 import json
 
-import controller
 import pika
-from database import SessionLocal
+
+from app.v1 import controller
+from app.v1.database import SessionLocal
 
 CONNECTION_HOST = "localhost"
 

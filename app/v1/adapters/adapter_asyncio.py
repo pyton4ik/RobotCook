@@ -6,9 +6,9 @@ import asyncio
 import time
 from math import ceil
 
-from controller import cook_product_id
-from controller import get_product
-from database import SessionLocal
+from app.v1.controller import cook_product_id
+from app.v1.controller import get_product
+from app.v1.database import SessionLocal
 
 CLUSTER_QTY = 5
 db = SessionLocal()
