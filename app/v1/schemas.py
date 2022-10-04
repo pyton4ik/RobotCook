@@ -11,15 +11,18 @@ from pydantic import BaseModel
 from pydantic import PositiveInt
 from typing_extensions import Literal
 
+
 @dataclass  # Современные штучки
 class Point:
     """Просто точка в 3-х мерной системе координат"""
+
     x: int
     y: int
     z: int
 
+
 @dataclass
-class ProcessingCenterConfig():
+class ProcessingCenterConfig:
     name: str
     angle: int
     object: Any

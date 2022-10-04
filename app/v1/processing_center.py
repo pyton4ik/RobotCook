@@ -27,13 +27,13 @@ class ProcessingCenter(OrbitingElement):
     config: ProcessingCenterConfig
 
     def open(self):
-        self.hardware.open()
+        self.config.object.open()
 
     def cooking(self, mode):
-        self.hardware.cooking(mode)
+        self.config.object.cooking(mode)
 
     def close(self):
-        self.hardware.close()
+        self.config.object.close()
 
     @property  # Современные штучки
     def up_coordinates(self) -> Point:

@@ -75,7 +75,7 @@ class Recipe:
         return True
 
     def _check_recipe(self):
-        """Перед началом приготовления опрашиваем железо на предмен наличия продуктов"""
+        """Перед началом приготовления опрашиваем железо на предмет наличия продуктов"""
 
         if not self.operations:
             raise ErrorReceiptConfiguration(details="Receipt is null")

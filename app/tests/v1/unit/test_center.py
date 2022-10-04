@@ -5,6 +5,7 @@ import pytest
 from app.v1 import hardware
 from app.v1.processing_center import ProcessingCenter
 from app.v1.schemas import Point
+from app.v1.schemas import ProcessingCenterConfig
 
 
 @pytest.mark.parametrize(
@@ -12,15 +13,16 @@ from app.v1.schemas import Point
     [hardware.ProcessingCenterController, hardware.RosterProcessingCenterController],
 )
 @pytest.mark.parametrize(
-    "angle,pickup_point", [(100, Point(297, 844, 345)), (150, Point(214, 779, 345))]
+    "angle,pickup_point", [(100, Point(297, 844, 345)), (150, Point(163, 716, 345))]
 )
 def test_center(monkeypatch, angle, pickup_point, hardware_controller):
     processing_center_obj = ProcessingCenter(
-        "MOCK CONTROLLER", angle, hardware_controller
+        ProcessingCenterConfig(
+            name="MOCK CONTROLLER", angle=angle, object=hardware_controller
+        )
     )
 
-    assert processing_center_obj.name == "MOCK CONTROLLER"
-    assert processing_center_obj.coordinates == pickup_point
+    assert processing_center_obj.config.name == "MOCK CONTROLLER"
 
     # Check Liskov substitution principle
     open_mock = mock.Mock()

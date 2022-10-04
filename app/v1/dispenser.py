@@ -52,19 +52,17 @@ class OrbitingElement:
 
 
 class Dispenser(OrbitingElement):
-    """Диспенсеры сгруппированы по типу (соусы, овощи). У группы есть начальный угол
-    угол расположения между елементами в группе, контроллер желе
-    """
+    """Диспенсеры сгруппированы по типу (соусы, овощи)."""
 
     def __init__(self, index, name, start_angle, elem_angle, hardware_class):
         """Диспенсеры сгруппированы по типу (соусы, овощи).
 
         Args:
-            index:
-            name:
-            start_angle:
-            elem_angle:
-            hardware_class:
+            index: Порядковый номер в группе.
+            name: Название.
+            start_angle: Начальный угол.
+            elem_angle: Расстояние между елементами.
+            hardware_class: Инстанс контроллера железа.
         """
         self.name = name
         self.index = index
