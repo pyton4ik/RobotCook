@@ -6,6 +6,7 @@ import asyncio
 
 from app.v1.errors import ErrorReceiptConfiguration
 from app.v1.schemas import Point
+from app.v1.schemas import ProcessingCenterConfig
 
 SOUCE_OPEN_WAIT_TIME = 300
 UP_OFFSET = 100
@@ -145,7 +146,7 @@ class RosterProcessingCenterController(ProcessingCenterController):
 
 
 processing_center_config = [
-    ("Grill", 100, RosterProcessingCenterController),
-    ("Warm", 120, ProcessingCenterController),
-    ("Fryer", 150, ProcessingCenterController),
+    ProcessingCenterConfig(name="Grill", angle=100, object=RosterProcessingCenterController),
+    ProcessingCenterConfig(name="Warm", angle=120, object=ProcessingCenterController),
+    ProcessingCenterConfig(name="Fryer", angle=150, object=ProcessingCenterController),
 ]

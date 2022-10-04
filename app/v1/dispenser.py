@@ -27,6 +27,7 @@ from math import cos
 from math import sin
 
 from app.v1 import hardware
+from app.v1.errors import ProductNotFoundInDosator
 from app.v1.schemas import Point
 
 DISPENSER_Z_COORD = 345
@@ -86,3 +87,28 @@ class Dispenser(OrbitingElement):
         Запрашиваем у Железа эту информацию.
         """
         return self.hardware.qty >= hardware.product_portion_qty_dict.get(self.name, 1)
+
+
+class DispensersController:
+    """Порождающие шаблон 'мультитон' Современные штучки"""
+
+    products: dict[str, Dispenser] = {}
+
+    def __int__(self):
+        for dispenser_config_elem in hardware.dispenser_config:
+            for index, product in enumerate(dispenser_config_elem[0]):
+                product_name = product.lower()
+                self.products[product_name] = Dispenser(
+                    index, product_name, *dispenser_config_elem[1:]
+                )
+
+    @classmethod
+    def get(self, product: str) -> Dispenser:
+        product_name = product.lower()
+        if product_name not in self.products:
+            raise ProductNotFoundInDosator(product=product)
+
+        return self.products[product_name]
+
+
+dispensers_controller = DispensersController()

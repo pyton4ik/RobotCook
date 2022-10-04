@@ -6,69 +6,24 @@ Init hardware Products and Operations instances.
 import asyncio
 
 from app.v1 import hardware
-from app.v1.dispenser import Dispenser
+from app.v1.dispenser import dispensers_controller
 from app.v1.errors import ErrorReceiptConfiguration
 from app.v1.errors import NotReadyForCooking
-from app.v1.errors import ProductNotFoundInDosator
-from app.v1.processing_center import ProcessingCenter
+from app.v1.processing_center import processing_centers_controller
 from app.v1.tools import BoxBasket
 from app.v1.tools import ProcessingBasket
 
 
-def init_operations():
-    opers = {
-        p_center_config[0].lower(): ProcessingCenter(*p_center_config)
-        for p_center_config in hardware.processing_center_config
-    }
-    opers["oven"] = opers["grill"]
-    opers["confection"] = opers["grill"]
-    return opers
-
-
-def init_products():
-    prods = {}
-    for dispenser_config_elem in hardware.dispenser_config:
-        for index, product in enumerate(dispenser_config_elem[0]):
-            product_name = product.lower()
-            prods[product_name] = Dispenser(
-                index, product_name, *dispenser_config_elem[1:]
-            )
-    return prods
-
-
-products = init_products()
-operations = init_operations()
-
-
-def get_product_obj(product: str):
-    product_name = product.lower()
-    if product_name not in products:
-        raise ProductNotFoundInDosator(product=product)
-
-    return products[product_name]
-
-
-def get_processing_center_obj(operation: str):
-    if not operation:
-        return None
-
-    operation_name = operation.lower()
-    if operation_name not in operations:
-        raise ErrorReceiptConfiguration(
-            details=f"Not found operations with name {operation}"
-        )
-
-    return operations[operation_name]
-
-
 class Operation:
-    """
-    The sequence of Operation for preparing a Recipe.
+    """Операция для приготовления 'Продукта'
+
+    Возможно нужно отрефакторить под Порождающий шаблон "Builder"? Современные штучки
     """
 
     def __init__(self, ingredient: str, operation: str, time: int, **_):
-        self.dispenser = get_product_obj(ingredient)
-        self.p_center = get_processing_center_obj(operation)
+
+        self.dispenser = dispensers_controller.get(ingredient)
+        self.p_center = processing_centers_controller.get(operation)
         self.operation_time = time
         self.operation = operation
 
@@ -78,7 +33,7 @@ class Operation:
 
         self.manipulator = hardware.ManipulatorController()
 
-    def _operation(self):
+    def _cook(self):
         if not self.operation:
             return
 
@@ -90,25 +45,25 @@ class Operation:
         self.p_center.open()
         self.manipulator.go_to_pos(*self.p_center.up_coordinates)
         self.p_center.close()
+
+    def __call__(self):
+        self.tool.get()
+        # Идем к диспенсеру
+        self.manipulator.go_to_pos(*self.dispenser.pick_up_point)
+        # Получаем продукт
+        self.dispenser.get_product()
+        # И готовим его
+        self._cook()
+        # Кладем корзину на место
         self.manipulator.go_to_pos(*hardware.BASKET_PARKING_COORDINATES)
         self.tool.rotate()
         self.tool.rotate()
-
-    def curr_call(self):
-        self.tool.get()
-        self.manipulator.go_to_pos(*self.dispenser.pick_up_point)
-        self.dispenser.get_product()
-        self._operation()
+        # Кладем инструмент на место
         self.tool.drop()
-
-    def __call__(self):
-        self.curr_call()
 
 
 class Recipe:
-    """
-    Generate Operations list and cook this.
-    """
+    """Рецепт - список 'Операций' для приготовления продукта."""
 
     def __init__(self, oper):
         self.operations = (Operation(**dict(recipe_item)) for recipe_item in oper)
@@ -120,6 +75,8 @@ class Recipe:
         return True
 
     def _check_recipe(self):
+        """Перед началом приготовления опрашиваем железо на предмен наличия продуктов"""
+
         if not self.operations:
             raise ErrorReceiptConfiguration(details="Receipt is null")
 
