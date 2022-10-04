@@ -4,6 +4,7 @@ import pytest
 
 from app.v1 import hardware
 from app.v1.processing_center import ProcessingCenter
+from app.v1.schemas import Point
 
 
 @pytest.mark.parametrize(
@@ -11,7 +12,7 @@ from app.v1.processing_center import ProcessingCenter
     [hardware.ProcessingCenterController, hardware.RosterProcessingCenterController],
 )
 @pytest.mark.parametrize(
-    "angle,pickup_point", [(100, (297, 844, 345)), (150, (214, 779, 345))]
+    "angle,pickup_point", [(100, Point(297, 844, 345)), (150, Point(214, 779, 345))]
 )
 def test_center(monkeypatch, angle, pickup_point, hardware_controller):
     processing_center_obj = ProcessingCenter(
@@ -34,7 +35,9 @@ def test_center(monkeypatch, angle, pickup_point, hardware_controller):
     processing_center_obj.close()
     processing_center_obj.cooking("Grill")
 
-    assert processing_center_obj.up_coordinates == (mock.ANY, mock.ANY, mock.ANY)
+    assert processing_center_obj.up_coordinates.x
+    assert processing_center_obj.up_coordinates.y
+    assert processing_center_obj.up_coordinates.z
 
     assert open_mock.mock_calls == [mock.call()]
     assert close_mock.mock_calls == [mock.call()]

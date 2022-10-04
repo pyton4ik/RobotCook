@@ -2,12 +2,22 @@
 Pydantic schemas for FastAPI and Flask return values
 (convert SQLAlchemy models to JSON).
 """
+from dataclasses import dataclass
 from typing import List
 from typing import Optional
 
 from pydantic import BaseModel
 from pydantic import PositiveInt
 from typing_extensions import Literal
+
+
+@dataclass  # Современные штучки
+class Point:
+    """Просто точка в 3-х мерной системе координат"""
+
+    x: int
+    y: int
+    z: int
 
 
 class Product(BaseModel):

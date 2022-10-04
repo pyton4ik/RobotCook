@@ -17,7 +17,7 @@ from app.v1.tools import ProcessingBasket
     ],
 )
 @pytest.mark.parametrize("operation", ("get", "drop"))
-def test_tools_liskov_substitution_principle(
+def test_tools_liskov_substitution_principle(  # Современные штучки
     monkeypatch, tool_class, coordinates, operation
 ):
     go_to_pos_mock = mock.Mock()
@@ -26,7 +26,7 @@ def test_tools_liskov_substitution_principle(
     monkeypatch.setattr(ManipulatorController, operation, operation_mock)
 
     getattr(tool_class, operation)()
-    assert go_to_pos_mock.mock_calls == [mock.call(*coordinates)]
+    assert go_to_pos_mock.mock_calls == [mock.call(coordinates)]
     assert operation_mock.mock_calls == [mock.call()]
 
 

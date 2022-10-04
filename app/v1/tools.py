@@ -1,36 +1,33 @@
-"""
-Helper tools for operations.
-Every tools have keep coordinates (parking_coordinates).
+"""Инструмент
+
+'Манипулятор' Ничего не делает без 'Инструментов'.
+У манипулятора есть место хранения - parking_coordinates.
+
 """
 from app.v1.hardware import ManipulatorController
+from app.v1.schemas import Point
 
 
-BASKET_PARKING_COORDINATES = 123, 321, 231
-PROCESSING_BASKET_PARKING_COORDINATES = 232, 282, 228
+BASKET_PARKING_COORDINATES = Point(123, 321, 231)
+PROCESSING_BASKET_PARKING_COORDINATES = Point(232, 282, 228)
 UP_OFFSET = 100
 
 
 class Tool:
-    """
-    Common class for all Tools
-    """
+    """Асбтрактный класс для всех инструментов."""
 
     def __init__(self):
-        self.manipulator = ManipulatorController()
-        self.parking_coordinates = 0, 0, 0
+        self.manipulator: ManipulatorController = ManipulatorController()
+        self.parking_coordinates: Point = Point(0, 0, 0)
 
     def get(self):
-        """
-        After every operation tools must be put to holder place
-        """
-        self.manipulator.go_to_pos(*self.parking_coordinates)
+        """Подводим манипулятор туда, где лежит Инструмент"""
+        self.manipulator.go_to_pos(self.parking_coordinates)
         self.manipulator.get()
 
     def drop(self):
-        """
-        After every operation tools must be put to holder place
-        """
-        self.manipulator.go_to_pos(*self.parking_coordinates)
+        """After every operation tools must be put to holder place"""
+        self.manipulator.go_to_pos(self.parking_coordinates)
         self.manipulator.drop()
 
 

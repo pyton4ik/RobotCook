@@ -1,13 +1,15 @@
-"""
-This file contain hardware constants and hardware adapters for all devices.
+"""Здесь слой работы с реальным железом.
+
+Здесь пока все Mock-вое
 """
 import asyncio
 
 from app.v1.errors import ErrorReceiptConfiguration
+from app.v1.schemas import Point
 
 SOUCE_OPEN_WAIT_TIME = 300
 UP_OFFSET = 100
-BASKET_PARKING_COORDINATES = 100, 200, 300
+BASKET_PARKING_COORDINATES = Point(100, 200, 300)
 
 product_portion_qty_dict = {
     "onion": 15,
@@ -26,7 +28,7 @@ class ManipulatorController:
     Delivers products to the box and processing centers.
     """
 
-    def go_to_pos(self, x, y, z):
+    def go_to_pos(self, point: Point):
         ...
 
     def get(self):
@@ -121,8 +123,7 @@ class ProcessingCenterController:
 
 class RosterProcessingCenterController(ProcessingCenterController):
     def set_mode(self, mode):
-        """Какой я современный"""
-        match mode:
+        match mode: # Современные штучки
             case "Grill":
                 self.turn_ten(1)
                 self.turn_ten(2)

@@ -1,14 +1,14 @@
-"""
-Common test for all dosators
-"""
+"""Common test for all dosators"""
 from unittest import mock
 
 import pytest
 
 from app.v1 import hardware
 from app.v1.dispenser import Dispenser
+from app.v1.schemas import Point
 
 
+# Современные штучки
 @pytest.mark.parametrize(
     "hardware_dosator_controller",
     [hardware.SouceDosatorController, hardware.SlicerDosatorController],
@@ -16,10 +16,10 @@ from app.v1.dispenser import Dispenser
 @pytest.mark.parametrize(
     "start_angle,elem_angle,pickup_point",
     [
-        (0, 5, (116, 613, 345)),
-        (15, 5, (865, 663, 345)),
-        (1, 30, (338, 865, 345)),
-        (1, 45, (860, 327, 345)),
+        (0, 5, Point(116, 613, 345)),
+        (15, 5, Point(865, 663, 345)),
+        (1, 30, Point(338, 865, 345)),
+        (1, 45, Point(860, 327, 345)),
     ],
 )
 @pytest.mark.parametrize("hardware_qty,is_have_amount", [(0, False), (100500, True)])
