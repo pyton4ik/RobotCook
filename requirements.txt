@@ -1,9 +1,0 @@
-SQLAlchemy
-fastapi
-Flask
-Flask-SQLAlchemy
-flask[async]
-aiohttp
-pytest-aiohttp
-pika
-pytest-rabbitmq
